@@ -9,6 +9,82 @@
     <script src="/static/chartjs-plugin-zoom.js"></script>
 
 
+<style>
+.button {
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    padding: 15px 25px;
+    text-align: center;
+    font-size: 35px;
+    cursor: pointer;
+}
+
+.button:hover {
+    background: green;
+}
+.sbutton {
+    width: 100%;
+    background-color: #FFAF50;
+    border: none;
+    color: white;
+    padding: 15px 25px;
+    text-align: center;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+.sbutton:hover {
+    background-color: #FF9030;
+}
+
+input[type=number], select {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+input[type=checkbox], select {
+    width: 20%;
+    //padding: 12px 20px;
+    margin: 12px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    vertical-align: bottom;
+    position: relative;
+    *overflow: hidden;
+
+
+
+}
+
+label {
+  display: block;
+  padding-left: 15px;
+  text-indent: -15px;
+  vertical-align: middle;
+
+}
+/*input {
+  width: 13px;
+  height: 13px;
+  padding: 0;
+  margin:0;
+  top: -1px;
+}*/
+
+
+
+
+</style>
+
+
   </head>
   <body>
 
@@ -16,21 +92,28 @@
         <button onclick="resetZoom()">Reset Zoom</button>
         <canvas id="myChart" width="400" height="400"></canvas>
     </div>
-    <div style="width: 500px; float: left; margin-top: 100px;">
+    <div style="width: 200px; float: left; margin-top: 70px; margin-left:20px;; ">
       <form id="the_form">
 
+     <label for="Vph">Photoelectron Knee</label>
+      <input type="number" name="Vph" id="Vph" autofocus>
 
-      <input type="text" name="first_text" id="first_text">
-      <input type="text" name="second_text" id="second_text">
-      <input type="checkbox" name="checker" id="checker">
-      <button type="button" id="submitter" name="button">Submit!</button>
+     <label for="Vbar">Barrier Potential</label>
+      <input type="number" name="Vbar" id="Vbar">
+
+     <label for="checker1">Disturbed sweep</label>
+      <input type="checkbox" name="checker1" id="checker1">
+
+      <label for="checker2"><span>Poorly calibrated</span></label>
+      <input type="checkbox" name="checker2" id="checker2">
+      <button class="sbutton" id="submitter" name="button">Submit!</button>
       </form>
     </div>
 
-    <div style="width: 100%; float: left; padding-left: 100px;">
-      <button type="button" name="button" id="left_button" disabled><</button>
+    <div style="width: 100%; float: left; padding-left: 125px;">
+      <button class="button" name="button" id="left_button" disabled> < </button>
       Row: <span id="row_id_placeholder">{{row_id}}</span>
-      <button type="button" name="button" id="right_button">></button>
+      <button class="button" name="button" id="right_button"> > </button>
     </div>
 
 

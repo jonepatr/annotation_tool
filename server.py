@@ -9,6 +9,9 @@ import pandas as pd
 
 app = Flask(__name__)
 
+#output_list = []
+
+output_list = [None] * 10000
 
 
 #Read file once:
@@ -73,7 +76,33 @@ def next_row(current_row):
 
 @app.route('/save_values/<int:row>', methods=['POST'])
 def save_values(row):
-    print('Adding to csv...', row, request.form.get('first_text'), request.form.get('second_text'), request.form.get('checker'))
+    print('Adding to csv...', row, request.form.get('Vph'), request.form.get('Vbar'), request.form.get('checker1'), request.form.get('checker2'))
+
+    ind=(row-1)*5
+    col1=request.form.get('Vph')
+    col2=request.form.get('Vbar')
+    col3=request.form.get('checker1')
+    col4=request.form.get('checker2')
+
+    output_list[ind]=row
+    output_list[ind+1]=col1
+    output_list[ind+2]=col2
+    output_list[ind+3]=col3
+    output_list[ind+4]=col4
+
+    df_out = pd.DataFrame(output_list)
+    df_out.to_csv('output.csv', index=False)
+
+
+
+    #np.savetxt('data.csv', (row, request.form.get('Vph'), request.form.get('Vbar'),request.form.get('checker')), delimiter=',')
+
+   # np.savetxt('data.csv', (col1_array, col2_array, col3_array), delimiter=',')
+    #  with open('filnamn.csv', 'w') as f:
+  #      spamwriter = csv.writer(f,delimiter=',')
+  #      spamwriter.writerow(row + request.form.get('Vph') + request.form.get('Vbar') + request.form.get('checker'))
+    #spamwriter.writerow(['Spam'] * 5 + ['Baked Beans'])
+
     return 'ok'
 
 
