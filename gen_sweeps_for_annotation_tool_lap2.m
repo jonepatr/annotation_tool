@@ -1,31 +1,33 @@
 %gen_sweeps_for_annotation_tool
+%LAP2
+
 load=0;
 if load
-command = 'ls /mnt/squid/RO-C-RPCLAP-5-1*V0.7/*/*/*/*I1S.TAB';
-
-[status,command_output] = system(command);
-cell_listoffiles=textscan(command_output,'%s');
-%dataraw=  readAxS_prelim(cell_listoffiles{1,1});
-
-len_f=length(cell_listoffiles{1,1});
-
-
-
-k=0;
-sweepmatrix=nan(1,2);
-for i = 1:len_f
+    command = 'ls /mnt/squid/RO-C-RPCLAP-5-1*V0.7/*/*/*/*I2S.TAB';
     
-    if ~isempty(dataraw(i).sweeps)
+    [status,command_output] = system(command);
+    cell_listoffiles=textscan(command_output,'%s');
+    %dataraw=  readAxS_prelim(cell_listoffiles{1,1});
+    
+    len_f=length(cell_listoffiles{1,1});
+    
+    
+    
+    k=0;
+    sweepmatrix=nan(1,2);
+    for i = 1:len_f
         
-        for j = 1:length(dataraw(i).sweeps(:,1))         
-            k=k+1;
-            sweepmatrix(k,1:2)=[i;j];
-       
+        if ~isempty(dataraw(i).sweeps)
+            
+            for j = 1:length(dataraw(i).sweeps(:,1))
+                k=k+1;
+                sweepmatrix(k,1:2)=[i;j];
+                
+            end
         end
+        i
+        
     end
-    i
-    
-end
 
 
 end
@@ -33,7 +35,7 @@ end
 
 
 nrofsweeps=300;
-fname='../generatedsweeps_6.csv';
+fname='../generatedsweeps_21.csv';
 
 max_sweep=0;
 % for i =1:nrofsweeps %bump up to 1000 soon

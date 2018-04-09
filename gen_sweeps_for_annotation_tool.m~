@@ -33,7 +33,7 @@ end
 
 
 nrofsweeps=300;
-fname='../generatedsweeps_6.csv';
+fname='../generatedsweeps_4.csv';
 
 max_sweep=0;
 % for i =1:nrofsweeps %bump up to 1000 soon
@@ -61,11 +61,15 @@ for i =1:nrofsweeps %bump up to 1000 soon
     
     
     
-    k=1+floor(rand()*(length(sweepmatrix)-1)+0.5);
     
-    ind_1(i)=sweepmatrix(k,1);
-    ind_2(i)=sweepmatrix(k,2);
-    ind_3(i)=k;   
+    ind_1(i)=1+floor(rand()*(len_f-1)+0.5);
+   
+    while isempty(dataraw(ind_1(i)).sweeps) %oh noes, its empty
+        ind_1(i)=1+floor(rand()*(len_f-1)+0.5); %try again
+    end
+    
+    lenS(i)=length(dataraw(ind_1(i)).sweeps(:,1));
+    ind_2(i)=1+floor(rand*(lenS(i)-1)+0.5);
     
     lenmax=length(dataraw(ind_1(i)).sweeps(1,:));
     if lenmax>max_sweep

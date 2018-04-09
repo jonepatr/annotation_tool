@@ -3,6 +3,7 @@ import json
 import numpy as np
 import math
 import pandas as pd
+import time
 #not really necessary import, good for debugging:
 import matplotlib.pyplot as plt
 import csv
@@ -12,13 +13,21 @@ app = Flask(__name__)
 #output_list = []
 #initialise output_list. This is ugly.. Enough for 2000 sweeps though.
 #output_list = [None] * 10000
-output_list = [None] * 2000
+output_list = [None] * 3000
 
 
 #Read file once:
 #read file that might have inconsistent column numbers between rows. Fill with nans:
 #df=pd.read_csv('RPCLAP_20160921_080404_710_to_patrik2.csv', sep=',',header=None,engine='python')
-df=pd.read_csv('generatedsweeps_3.csv', sep=',',header=None,engine='python')
+timestr = time.strftime("%Y%m%d-%H%M%S")
+print(timestr)
+inputfile_start='../generatedsweeps_5'
+inputfile=inputfile_start+'.csv'
+df=pd.read_csv(inputfile, sep=',',header=None,engine='python')
+
+#print(request.remote_addr)
+
+
 global identifier
 
 #Windows hardcoded path
@@ -141,13 +150,17 @@ def save_values(row):
     output_list[ind+3]=col3
     output_list[ind+4]=col4
     #output_list is kept up to date even if you go back and forwards in the tool
+    #outputfile='output/'+inputfile_start+'_'+timestr+request.remote_addr+'.csv'
+    outputfile='output/'+inputfile_start+'_'+timestr+'.csv'
 
     #convert output to dataframe, output all of it.
     df_out = pd.DataFrame(output_list)
-    df_out.to_csv('output.csv', index=False)
-
+    #df_out.to_csv('output/output.csv', index=False)
+    df_out.to_csv(outputfile, index=False)
     return 'ok'
 
 
-if __name__ == "__main__":
-    app.run(debug=True)
+#if __name__ == "__main__":
+if __name__ == '__main__':
+    #app.run(debug=True)
+    app.run(debug=True,host='0.0.0.0')
