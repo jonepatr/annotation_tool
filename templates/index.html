@@ -158,14 +158,24 @@ Chart.controllers.LineWithLine = Chart.controllers.line.extend({
       }
    }
 });
-
-
+var randomScalingFactor = function() {
+  return (Math.random() > 0.5 ? 1.0 : -1.0) * Math.round(Math.random() * 100);
+};
+var randomColor = function(opacity) {
+  return 'rgba(' + Math.round(Math.random() * 255) + ',' + Math.round(Math.random() * 255) + ',' + Math.round(Math.random() * 255) + ',' + (opacity || '.3') + ')';
+};
 var chart = new Chart(ctx, {
     //type: 'line',
     type: 'LineWithLine',
     data: {
         datasets: [{
-            label: 'Dataset',
+            label: 'Sweep',
+            borderColor: "rgba(220,10,220,0.5)",
+            lineBorderColor: "rgba(220,10,220,0.5)",
+            lineBackgroundColor: "rgba(220,10,220,0.5)",
+            backgroundColor: "rgba(256,256,256,0)",
+          //  borderColor: = rgba(255,99,132,1),
+
           /*  data: [{
                 x: -10,
                 y: 0
@@ -188,7 +198,22 @@ var chart = new Chart(ctx, {
                 x: 10,
                 y: 7
             }]*/
+            }, {
+              label: "Derivative dI/dV",
+              borderColor: "rgba(150,220,220,0.5",
+              lineBorderColor: "rgba(150,220,220,0.5)",
+              lineBackgroundColor: "rgba(150,220,220,0.5)",
+              backgroundColor: "rgba(256,256,256,0)",
+              //  borderColor: "rgba(220,220,220,0.5)",
+              //  borderColor: "rgba(220,220,220,0.5)",
+            //  dataset.borderColor = randomColor(0.4);
+            //  dataset.backgroundColor = randomColor(0.1);
+            //  dataset.pointBorderColor = randomColor(0.7);
+            //  dataset.pointBackgroundColor = randomColor(0.5);
+            //  dataset.pointBorderWidth = 1;
+            // borderColor: = rgba(255,99,132,1),
           }]
+
     },
     options: {
         scales: {
@@ -239,6 +264,12 @@ var chart = new Chart(ctx, {
 		mode: 'y'
    }
 }
+//chart.data.datasets.forEach(function(dataset) {
+//  dataset.borderColor = randomColor(0.4);
+  //dataset.backgroundColor = randomColor(0.1);
+  //dataset.pointBorderColor = randomColor(0.7);
+  //dataset.pointBackgroundColor = randomColor(0.5);
+  //dataset.pointBorderWidth = 1;
 });
 
 function resetZoom() {
@@ -262,7 +293,7 @@ $(function() {
 
       $.getJSON('/next_row/' + window.row ).then(function(response) {
           chart.data.datasets[0].data = response.data
-          //chart.data.datasets[1].data = response.data2
+          chart.data.datasets[1].data = response.data2
           chart.update();
       });
   }

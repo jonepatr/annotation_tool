@@ -21,7 +21,7 @@ output_list = [None] * 3000
 #df=pd.read_csv('RPCLAP_20160921_080404_710_to_patrik2.csv', sep=',',header=None,engine='python')
 timestr = time.strftime("%Y%m%d-%H%M%S")
 print(timestr)
-inputfile_start='../generatedsweeps_5'
+inputfile_start='../generatedsweeps_6'
 inputfile=inputfile_start+'.csv'
 df=pd.read_csv(inputfile, sep=',',header=None,engine='python')
 
@@ -121,16 +121,16 @@ def next_row(current_row):
 
     I=np.round(1e9*I*1e5)/1e5
     V=np.round(V*1e5)/1e5
-    dI =np.gradient(I)
+    dI =-np.gradient(I)
     #dI =I
     x = sorted(np.random.rand(10)*10)
     y = np.random.rand(10)*10
 
     data = [{'x': a, 'y': b} for a, b in zip(V, I)]
-    #data2 = [{'x': a, 'y': b} for a, b in zip(V, dI)]
-    return json.dumps({'data': data})
+    data2 = [{'x': a, 'y': b} for a, b in zip(V, dI)]
+    #return json.dumps({'data': data})
 
-    #return json.dumps({'data': data,'data2': data2})
+    return json.dumps({'data': data,'data2': data2})
 
 @app.route('/save_values/<int:row>', methods=['POST'])
 def save_values(row):
