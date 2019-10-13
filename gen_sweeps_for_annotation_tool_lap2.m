@@ -3,29 +3,29 @@
 
 load=0;
 if load
-    command = 'ls /mnt/squid/RO-C-RPCLAP-5-1*V0.7/*/*/*/*I2S.TAB';
+    command = 'ls /mnt/squid/RO-C-RPCLAP-5-1*V0.7/*/*/*/*I1S.TAB';
     
     [status,command_output] = system(command);
-    cell_listoffiles=textscan(command_output,'%s');
-    %dataraw=  readAxS_prelim(cell_listoffiles{1,1});
+    cell_listoffiles2=textscan(command_output,'%s');
+    dataraw2=  readAxS_prelim(cell_listoffiles2{1,1});
     
-    len_f=length(cell_listoffiles{1,1});
+    len_f2=length(cell_listoffiles2{1,1});
     
     
     
     k=0;
-    sweepmatrix=nan(1,2);
-    for i = 1:len_f
+    sweepmatrix2=nan(1,2);
+    for i = 1:len_f2
         
-        if ~isempty(dataraw(i).sweeps)
+        if ~isempty(dataraw2(i).sweeps)
             
-            for j = 1:length(dataraw(i).sweeps(:,1))
+            for j = 1:length(dataraw2(i).sweeps(:,1))
                 k=k+1;
-                sweepmatrix(k,1:2)=[i;j];
+                sweepmatrix2(k,1:2)=[i;j];
                 
             end
         end
-        i
+        %i
         
     end
 
@@ -35,7 +35,7 @@ end
 
 
 nrofsweeps=300;
-fname='../generatedsweeps_21.csv';
+fname='../generatedsweeps_27.csv';
 
 max_sweep=0;
 % for i =1:nrofsweeps %bump up to 1000 soon
@@ -58,18 +58,20 @@ max_sweep=0;
 % 
 %     
 % end
-
+ind_1=[];
+ind_2=[];
+ind_3=[];
 for i =1:nrofsweeps %bump up to 1000 soon
     
     
     
-    k=1+floor(rand()*(length(sweepmatrix)-1)+0.5);
+    k=1+floor(rand()*(length(sweepmatrix2)-1)+0.5);
     
-    ind_1(i)=sweepmatrix(k,1);
-    ind_2(i)=sweepmatrix(k,2);
+    ind_1(i)=sweepmatrix2(k,1);
+    ind_2(i)=sweepmatrix2(k,2);
     ind_3(i)=k;   
-    
-    lenmax=length(dataraw(ind_1(i)).sweeps(1,:));
+    i
+    lenmax=length(dataraw2(ind_1(i)).sweeps(1,:));
     if lenmax>max_sweep
         max_sweep = lenmax
     end
@@ -88,8 +90,8 @@ if test
     figure(1)
     hold on;
     for i = 1:10        
-        I=dataraw(ind_1(i)).sweeps(ind_2(i),:);
-        Vb= dataraw(ind_1(i)).bias_potentials;
+        I=dataraw2(ind_1(i)).sweeps(ind_2(i),:);
+        Vb= dataraw2(ind_1(i)).bias_potentials;
         plot(Vb,I)
         grid on;
     end
@@ -103,15 +105,15 @@ twID = fopen(fname,'w');
 
 Dataarray=nan(nrofsweeps,max_sweep);
 for i = 1:nrofsweeps
-    leennnngth=length(dataraw(ind_1(i)).sweeps(ind_2(i),:));
-    Dataarray(i,1:leennnngth*2)=[dataraw(ind_1(i)).sweeps(ind_2(i),:) dataraw(ind_1(i)).bias_potentials.'];
+    leennnngth=length(dataraw2(ind_1(i)).sweeps(ind_2(i),:));
+    Dataarray(i,1:leennnngth*2)=[dataraw2(ind_1(i)).sweeps(ind_2(i),:) dataraw2(ind_1(i)).bias_potentials.'];
 end
     Dataarray(Dataarray==0)=-1000;
     Dataarray(isnan(Dataarray))=-1000;
 
 for i = 1:nrofsweeps
     i
-    b1 = fprintf(twID,'%s%s, %d',cell_listoffiles{1,1}{ind_1(i),1},dataraw(ind_1(i)).START_TIME_UTC{1,1},dataraw(ind_1(i)).qf(ind_2(i)));
+    b1 = fprintf(twID,'%s%s, %d',cell_listoffiles2{1,1}{ind_1(i),1},dataraw2(ind_1(i)).START_TIME_UTC{ind_2(i),1},dataraw2(ind_1(i)).qf(ind_2(i)));
     b2 = fprintf(twID,', %14.7e',Dataarray(i,:));
     %b2 = fprintf(twID,', %14.7e',dataraw(ind_1(i)).sweeps(ind_2(i),:).'); %
     %b3 = fprintf(twID,', %14.7e',dataraw(ind_1(i)).bias_potentials.'); %some steps could be "NaN" values if LDL macro

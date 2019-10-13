@@ -21,7 +21,7 @@ output_list = [None] * 3000
 #df=pd.read_csv('RPCLAP_20160921_080404_710_to_patrik2.csv', sep=',',header=None,engine='python')
 timestr = time.strftime("%Y%m%d-%H%M%S")
 print(timestr)
-inputfile_start='../generatedsweeps_6'
+inputfile_start='../generatedsweeps_25'
 inputfile=inputfile_start+'.csv'
 df=pd.read_csv(inputfile, sep=',',header=None,engine='python')
 
@@ -118,10 +118,10 @@ def next_row(current_row):
 #    I(np.isnan(I))=[]
 
 
-
+    dI =np.gradient(1e9*I)*np.sign(np.average(np.gradient(V)))
     I=np.round(1e9*I*1e5)/1e5
     V=np.round(V*1e5)/1e5
-    dI =-np.gradient(I)
+    dI=np.round(dI*1e5)/1e5
     #dI =I
     x = sorted(np.random.rand(10)*10)
     y = np.random.rand(10)*10
@@ -134,21 +134,25 @@ def next_row(current_row):
 
 @app.route('/save_values/<int:row>', methods=['POST'])
 def save_values(row):
-    print('Adding to csv...', row, request.form.get('Vph'), request.form.get('Vbar'), request.form.get('checker1'), request.form.get('checker2'))
+    print('Adding to csv...', row, request.form.get('Vph'), request.form.get('Vbar'), request.form.get('Vsc'), request.form.get('checker1'), request.form.get('checker2'))
 
     global identifier
     #prepare ouput, send to python list
-    ind=(row-1)*5
+    ind=(row-1)*6
     col1=request.form.get('Vph')
     col2=request.form.get('Vbar')
     col3=request.form.get('checker1')
     col4=request.form.get('checker2')
+    col5=request.form.get('Vsc')
+
 
     output_list[ind]=identifier
     output_list[ind+1]=col1
     output_list[ind+2]=col2
     output_list[ind+3]=col3
     output_list[ind+4]=col4
+    output_list[ind+5]=col5
+
     #output_list is kept up to date even if you go back and forwards in the tool
     #outputfile='output/'+inputfile_start+'_'+timestr+request.remote_addr+'.csv'
     outputfile='output/'+inputfile_start+'_'+timestr+'.csv'

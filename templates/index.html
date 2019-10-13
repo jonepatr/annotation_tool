@@ -101,14 +101,17 @@ div {
         <button onclick="resetZoom()">Reset Zoom</button>
         <canvas id="myChart" width="900" height="600"></canvas>
     </div>
-    <div style="width: 200px; float: left; margin-top: 70px; margin-left:20px;; ">
+    <div style="width: 300px; float: left; margin-top: 70px; margin-left:20px;; ">
       <form id="the_form">
 
-     <label for="Vph">Photoelectron Knee</label>
+     <label for="Vph">Vph, Photoelectron Knee (First knee)</label>
       <input type="number" name="Vph" id="Vph" autofocus>
 
-     <label for="Vbar">Barrier Potential</label>
+     <label for="Vbar">Vbar, Barrier Potential (Extra knee above Vph)</label>
       <input type="number" name="Vbar" id="Vbar">
+
+      <label for="Vsc">Vsc, Spacecraft Potential (Derivative roughly constant)</label>
+       <input type="number" name="Vsc" id="Vsc">
 
      <label for="checker1">Disturbed sweep</label>
       <input type="checkbox" name="checker1" id="checker1">

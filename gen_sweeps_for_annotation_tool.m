@@ -23,7 +23,7 @@ for i = 1:len_f
        
         end
     end
-    i
+    %i
     
 end
 
@@ -33,7 +33,7 @@ end
 
 
 nrofsweeps=300;
-fname='../generatedsweeps_6.csv';
+fname='/Users/frejon/Documents/generatedsweeps_9.csv';
 
 max_sweep=0;
 % for i =1:nrofsweeps %bump up to 1000 soon
@@ -109,7 +109,7 @@ end
 
 for i = 1:nrofsweeps
     i
-    b1 = fprintf(twID,'%s%s, %d',cell_listoffiles{1,1}{ind_1(i),1},dataraw(ind_1(i)).START_TIME_UTC{1,1},dataraw(ind_1(i)).qf(ind_2(i)));
+    b1 = fprintf(twID,'%s%s, %d',cell_listoffiles{1,1}{ind_1(i),1},dataraw(ind_1(i)).START_TIME_UTC{ind_2(i),1},dataraw(ind_1(i)).qf(ind_2(i)));
     b2 = fprintf(twID,', %14.7e',Dataarray(i,:));
     %b2 = fprintf(twID,', %14.7e',dataraw(ind_1(i)).sweeps(ind_2(i),:).'); %
     %b3 = fprintf(twID,', %14.7e',dataraw(ind_1(i)).bias_potentials.'); %some steps could be "NaN" values if LDL macro
